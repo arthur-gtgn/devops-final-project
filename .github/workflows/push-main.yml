@@ -20,6 +20,11 @@ jobs:
           python-version: "3.12"
           cache: 'pip'
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Download model artifact from DagsHub
         env:
           MLFLOW_TRACKING_URI: https://dagshub.com/arthur-gtgn/mlflow-with-daghub.mlflow
