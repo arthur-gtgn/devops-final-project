@@ -7,7 +7,9 @@ import mlflow.sklearn
 import dagshub
 
 experiment_name = "Musshroom_Classification"
-dagshub.init(repo_owner='arthur-gtgn', repo_name='devops-final-project', mlflow=True) # type: ignore
+
+def init_tracking():
+    dagshub.init(repo_owner='arthur-gtgn', repo_name='devops-final-project', mlflow=True) # type: ignore
 
 df = pd.read_csv('data/mushrooms.csv')
 
@@ -51,6 +53,7 @@ def train_model(criterion='gini', n_estimators=100, max_depth=None, bootstrap=Tr
         return model
 
 if __name__ == "__main__":
+    init_tracking()
     mlflow.set_tracking_uri("https://dagshub.com/arthur-gtgn/devops-final-project.mlflow") # type: ignore
     mlflow.set_experiment(experiment_name)
     with mlflow.start_run(nested=True):
