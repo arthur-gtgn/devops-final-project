@@ -11,6 +11,7 @@ dagshub.init(repo_owner='arthur-gtgn', repo_name='devops-final-project', mlflow=
 
 df = pd.read_csv('data/mushrooms.csv')
 
+# Splitting data into training and testing datasets
 X_train, X_test, y_train, y_test = train_test_split(
     pd.get_dummies(df.drop('class', axis=1)),
     df['class'],
