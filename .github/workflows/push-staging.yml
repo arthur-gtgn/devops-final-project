@@ -45,13 +45,15 @@ jobs:
 
       - name: Merge staging into main and push
         run: |
-          # Switch to main branch (create if missing)
-          if git show-ref --quiet refs/heads/main; then
-            git checkout main
+
+          git fetch --prune origin
+
+          if git ls-remote --exit-code --heads origin main ; then           # remote branch exists
+            git checkout -B main origin/main        # ≡ git checkout main && git reset --hard origin/main
           else
-            git checkout -b main
+            git checkout -b main                     # first time, nothing remote yet
           fi
-          # Merge staging
-          git merge staging --no-ff -m "chore: merge staging into main"
-          # Push updated main
+
+          git merge --no-ff staging -m "chore: merge staging into main"
+
           git push origin main
