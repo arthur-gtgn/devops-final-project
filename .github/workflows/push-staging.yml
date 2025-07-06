@@ -48,12 +48,13 @@ jobs:
 
           git fetch --prune origin
 
-          if git ls-remote --exit-code --heads origin main ; then           # remote branch exists
-            git checkout -B main origin/main        # ≡ git checkout main && git reset --hard origin/main
+          if git ls-remote --exit-code --heads origin main ; then
+            git checkout -B main origin/main
           else
-            git checkout -b main                     # first time, nothing remote yet
+            git checkout -b main
           fi
 
-          git merge --no-ff staging -m "chore: merge staging into main"
+          # Merge, preferring files from staging if the same path exists
+          git merge --no-ff -X theirs staging -m "chore: merge staging into main"
 
           git push origin main
