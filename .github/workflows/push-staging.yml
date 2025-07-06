@@ -1,10 +1,8 @@
 name: Deploy to Production on staging push
 
 on:
-  workflow_run:
-    workflows: ['Deploy to Staging on dev push']
-    types:
-      - completed
+  push:
+    branches: [ staging ]
 
 jobs:
   build-and-test:
