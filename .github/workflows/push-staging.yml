@@ -35,24 +35,26 @@ jobs:
       - name: Checkout code with full history
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PA_GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Configure Git user
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "arthur-gtgn"
+          git config user.email "arthur.gatignol@gmail.com"
 
       - name: Merge staging into main and push
         run: |
-          # Switch to main branch (create if missing)
-          if git show-ref --quiet refs/heads/main; then
-            git checkout main
+
+          git fetch --prune origin
+
+          if git ls-remote --exit-code --heads origin main ; then
+            git checkout -B main origin/main
           else
             git checkout -b main
           fi
-          # Merge staging
-          git merge staging --no-ff -m "chore: merge staging into main"
-          # Push updated main
-          git push origin main
 
+          # Merge, preferring files from staging if the same path exists
+          git merge --no-ff -X theirs staging -m "chore: merge staging into main"
+
+          git push origin main
