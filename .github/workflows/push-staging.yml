@@ -1,0 +1,57 @@
+name: Deploy to Production on staging push
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: pytest tests/unit
+
+      - name: Run integration tests
+        run: pytest tests/integration
+
+  push-to-production:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code with full history
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge staging into main and push
+        run: |
+          # Switch to main branch (create if missing)
+          if git show-ref --quiet refs/heads/main; then
+            git checkout main
+          else
+            git checkout -b main
+          fi
+          # Merge staging
+          git merge staging --no-ff -m "chore: merge staging into main"
+          # Push updated main
+          git push origin main

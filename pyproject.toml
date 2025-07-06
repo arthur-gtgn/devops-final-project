@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mushrooms-ml"          # pick any legal package name
+version = "0.1.0"
+description = "Edible vs poisonous mushrooms classifier"
+requires-python = ">=3.12"
+
+[tool.setuptools]
+package-dir = {"" = "src"}     # <—— src layout
+
+[tool.setuptools.packages.find]
+where = ["src"]
