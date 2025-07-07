@@ -33,7 +33,7 @@ jobs:
           mlflow artifacts download \
             --run-id 0744af9d3d0f4df0929549e387faae74 \
             --artifact-path random_forest_model/model.pkl \
-            --dst-path models/random_forest_model
+            --dst-path models/
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:

@@ -28,6 +28,9 @@ jobs:
       - name: Run integration tests
         run: pytest tests/integration
 
+      - name: Run end-to-end tests
+        run: pytest tests/e2e
+
   push-to-production:
     needs: build-and-test
     runs-on: ubuntu-latest
