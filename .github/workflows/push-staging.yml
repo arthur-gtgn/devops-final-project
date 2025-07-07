@@ -58,6 +58,6 @@ jobs:
           fi
 
           # Merge, preferring files from staging if the same path exists
-          git merge --no-ff -X theirs staging -m "chore: merge staging into main"
+          git merge --no-ff -X theirs staging -m "[ACTIONS]: Merge changes from staging to main"
 
           git push origin main

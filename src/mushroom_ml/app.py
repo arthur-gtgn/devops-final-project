@@ -43,16 +43,14 @@ with st.form("mushroom_form"):
 
 # On submit, call the prediction API and display result
 if submitted:
-    try:
-        # Send feature values as query parameters to the API
-        response = requests.post("http://localhost:8000/predict", json=selections)
-        response.raise_for_status()
-        data = response.json()
-        pred = data.get("prediction")
-        # Show result with appropriate styling
+    feature_list = [selections[f] for f in FEATURE_OPTIONS]
+    response = requests.post('http://localhost:8000/predict', json=feature_list, timeout=5)
+
+    if response.ok:
+        pred = response.json().get("prediction")
         if pred == 'e':
             st.success("🍄🟫 Edible", icon="✅")
         else:
             st.error("🍄 Poisonous", icon="❌")
-    except Exception as err:
-        st.error(f"Error calling prediction API: {err}")
+    else:
+        st.error(f"API error {response.status_code}: {response.text}")
