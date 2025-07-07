@@ -1,4 +1,4 @@
-name: CI for PR -> dev
+name: Feature -> Dev | Workflow
 
 on:
   pull_request:
