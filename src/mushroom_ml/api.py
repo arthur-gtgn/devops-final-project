@@ -5,6 +5,17 @@ import pandas as pd
 from sklearn.datasets import load_digits
 
 app = FastAPI()
+
+# Enable CORS for local development
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"^(http://)?(localhost|127\\.0\\.0\\.1)(:\\d+)?$",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 model = pickle.load(open("models/random_forest_model/model.pkl", "rb"))
 
 from fastapi import Query
