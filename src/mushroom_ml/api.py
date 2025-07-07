@@ -69,4 +69,4 @@ def predict(
 
     y = model.predict(df)
 
-    return {"input": features, "prediction": float(y[0])}
+    return {"input": features, "prediction": y[0]}
