@@ -43,8 +43,8 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            --tag arthur03/mlops-exercise:${{ github.sha }} \
+            --tag arthur03/mlops-exercise:latest \
             .
       - name: Push to DockerHub
         run: |
-          docker push arthur03/mlops-exercise:${{ github.sha }}
+          docker push arthur03/mlops-exercise:latest
