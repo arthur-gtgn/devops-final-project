@@ -8,6 +8,7 @@ import dagshub
 
 experiment_name = "Musshroom_Classification"
 
+# Simple function to register the DagsHub repository and enable MLflow tracking only once
 def init_tracking():
     dagshub.init(repo_owner='arthur-gtgn', repo_name='devops-final-project', mlflow=True) # type: ignore
 
@@ -53,9 +54,14 @@ def train_model(criterion='gini', n_estimators=100, max_depth=None, bootstrap=Tr
         return model
 
 if __name__ == "__main__":
+    # Initialize DagsHub tracking and set the experiment name
     init_tracking()
+
+    # Set the tracking URI to DagsHub and the experiment name
     mlflow.set_tracking_uri("https://dagshub.com/arthur-gtgn/devops-final-project.mlflow") # type: ignore
     mlflow.set_experiment(experiment_name)
+
+    # Running the experiment
     with mlflow.start_run(nested=True):
         model = train_model()
         mlflow.sklearn.log_model(model, "random_forest_model") # type: ignore

@@ -2,11 +2,10 @@ from fastapi import FastAPI, Body
 from typing import List
 import pickle
 import pandas as pd
-from sklearn.datasets import load_digits
 
 app = FastAPI()
 
-# Enable CORS for local development
+# Cors Settings to avoid network issues with Streamlit
 from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
@@ -16,9 +15,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Importing the pre-trained model
 model = pickle.load(open("models/random_forest_model/model.pkl", "rb"))
-
-from fastapi import Query
 
 FEATURE_OPTIONS = {
     "cap_shape": ['b','c','x','f','k','s'],
@@ -59,10 +57,10 @@ def predict(
     """
     Features must be a list of 22 characters in the order of FEATURE_OPTIONS.keys()
     """
-
     df = pd.DataFrame([features], columns=FEATURE_OPTIONS.keys()) # type: ignore
     df = pd.get_dummies(df) # type: ignore
 
+    # Replace underscores with dashes in column names to match the model's feature names
     df.columns = [c.replace("_", "-") for c in df.columns]
 
     df = df.reindex(columns=model.feature_names_in_, fill_value=0)
