@@ -45,7 +45,7 @@ with st.form("mushroom_form"):
 if submitted:
     try:
         # Send feature values as query parameters to the API
-        response = requests.get("http://localhost:8000/predict", params=selections)
+        response = requests.post("http://localhost:8000/predict", json=selections)
         response.raise_for_status()
         data = response.json()
         pred = data.get("prediction")
