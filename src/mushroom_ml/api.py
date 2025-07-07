@@ -63,6 +63,10 @@ def predict(
     df = pd.DataFrame([features], columns=FEATURE_OPTIONS.keys()) # type: ignore
     df = pd.get_dummies(df) # type: ignore
 
+    df.columns = [c.replace("_", "-") for c in df.columns]
+
+    df = df.reindex(columns=model.feature_names_in_, fill_value=0)
+
     y = model.predict(df)
 
     return {"input": features, "prediction": float(y[0])}

@@ -11,6 +11,7 @@ from mushroom_ml.train import train_model
 def test_train_then_predict(monkeypatch):
     # --- 1. train a tiny model in-memory --------------------------------------
     class DummyLoaderModel:
+        feature_names_in_: list[str] = []
         def predict(self, df):
             return [1]
 

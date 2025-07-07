@@ -60,6 +60,7 @@ def _write_stub_app(tmpdir: Path) -> Path:
 
         # ---- patch first ------------------------------------------------------
         class _Dummy:
+            feature_names_in_: list[str] = []
             def predict(self, df): return [1]
 
         pickle.load = lambda f: _Dummy()
