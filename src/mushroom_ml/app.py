@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 
-# Title of the app
 st.title("Mushroom Edibility Predictor")
 
 # Define possible options for each mushroom attribute
@@ -49,7 +48,7 @@ if submitted:
     if response.ok:
         pred = response.json().get("prediction")
         if pred == 'e':
-            st.success("🍄🟫 Edible", icon="✅")
+            st.success("🍄‍🟫 Edible", icon="✅")
         else:
             st.error("🍄 Poisonous", icon="❌")
     else:
