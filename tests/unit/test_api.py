@@ -13,6 +13,7 @@ import pytest
 def patch_model(monkeypatch):
     # --- Stub out the RandomForest model and the pickle/open machinery ----------
     class DummyModel:
+        feature_names_in_: list[str] = []
         def predict(self, df):
             return [1]                     # always “edible”
 
